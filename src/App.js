@@ -7,6 +7,7 @@ import BranchGrid from './components/BranchGrid';
 import { excelService } from './services/excelService';
 import { filterBranches } from './utils/searchUtils';
 import Modal from './components/Modal';
+import Header from './components/Header';
 
 function App() {
   const [branches, setBranches] = useState([]);
@@ -181,32 +182,20 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="app-header">
-        <h1>Branch Management System</h1>
-        <div className="header-controls">
-          <button onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
-            {viewMode === 'list' ? 'Grid View' : 'List View'}
-          </button>
-          <input
-            type="file"
-            id="import-excel"
-            accept=".xlsx,.xls"
-            style={{ display: 'none' }}
-            onChange={handleImport}
-          />
-          <button 
-            onClick={() => document.getElementById('import-excel').click()}
-            disabled={isImporting}
-          >
-            {isImporting ? 'Importing...' : 'Import Excel'}
-          </button>
-          <button onClick={handleExport} disabled={isExporting}>
-            {isExporting ? 'Exporting...' : 'Export Excel'}
-          </button>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-gray-100">
+      <Header 
+        onAddNew={() => {
+          setSelectedBranch(null);
+          setShowForm(true);
+        }}
+        onImport={handleImport}
+        onExport={handleExport}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        isExporting={isExporting}
+        isImporting={isImporting}
+      />
+      
       <div className="search-bar">
         <input
           type="text"
